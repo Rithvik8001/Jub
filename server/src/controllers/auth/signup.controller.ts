@@ -40,7 +40,7 @@ const signup = async (req: Request, res: Response) => {
       return res.status(500).json({ message: "Failed to create user" });
     }
 
-    const token = jwt.sign({ userId: newUser.id }, JWT_SECRET, {
+    const token = jwt.sign({ id: newUser.id }, JWT_SECRET, {
       expiresIn: "1d",
     });
 

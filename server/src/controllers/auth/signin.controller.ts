@@ -5,15 +5,14 @@ import { user } from "../../models/schema";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { ZodError } from "zod";
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
 
 const signin = async (req: Request, res: Response) => {
   try {
     const { email, password } = signInValidation.parse(req.body);
-    if (!email || !password) {
-      return res.status(400).json({ message: "All fields are required" });
-    }
+
     const isUserExist = await db
       .select()
       .from(user)
@@ -37,7 +36,7 @@ const signin = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    const token = jwt.sign({ userId: currentUser.id }, JWT_SECRET, {
+    const token = jwt.sign({ id: currentUser.id }, JWT_SECRET, {
       expiresIn: "1d",
     });
 
@@ -57,6 +56,11 @@ const signin = async (req: Request, res: Response) => {
       userData,
     });
   } catch (error) {
+    if (error instanceof ZodError) {
+      return res.status(400).json({
+        message: "Invalid input: Please provide valid email and password",
+      });
+    }
     console.log(error);
     return res.status(500).json({ message: "Internal server error" });
   }

@@ -6,6 +6,7 @@ import db from "./config/index.ts";
 import cors from "cors";
 import authRouter from "./routes/auth/auth.router.ts";
 import cookieParser from "cookie-parser";
+import profileRouter from "./routes/profile/profile.router.ts";
 const app: Express = express();
 app.use(express.json());
 app.use(cookieParser());
@@ -17,6 +18,7 @@ app.use(
 );
 
 app.use(`/api/auth`, authRouter);
+app.use(`/api/profile`, profileRouter);
 
 async function main() {
   try {

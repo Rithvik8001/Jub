@@ -3,16 +3,27 @@ import dotenv from "dotenv";
 import { sql } from "drizzle-orm";
 dotenv.config();
 import db from "./config/index.ts";
-
+import cors from "cors";
+import authRouter from "./routes/auth/auth.router.ts";
+import cookieParser from "cookie-parser";
 const app: Express = express();
 app.use(express.json());
+app.use(cookieParser());
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+  })
+);
+
+app.use(`/api/auth`, authRouter);
 
 async function main() {
   try {
     await db.execute(sql`SELECT 1`);
     console.log("✅ Database connection established successfully");
 
-    const port = process.env.PORT || 3001;
+    const port = process.env.PORT;
     app.listen(port, () => {
       console.log(`🚀 Server is running on port ${port}`);
     });

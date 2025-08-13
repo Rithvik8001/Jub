@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import db from "../../config/index";
 import { user } from "../../models/schema";
-import { signupValidation } from "../../validations/auth/signupValidation";
+import { signupValidation } from "../../validations";
 import { eq } from "drizzle-orm";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";

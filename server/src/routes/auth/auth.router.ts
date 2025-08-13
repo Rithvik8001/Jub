@@ -1,7 +1,5 @@
 import { Router } from "express";
-import signup from "../../controllers/auth/signup.controller.ts";
-import signin from "../../controllers/auth/signin.controller.ts";
-import signout from "../../controllers/auth/signout.controller.ts";
+import { signup, signin, signout } from "../../controllers/auth";
 const router: Router = Router();
 
 router.post(`/signup`, signup);

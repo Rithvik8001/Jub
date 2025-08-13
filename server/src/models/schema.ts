@@ -1,7 +1,4 @@
 import user from "./user.model";
+import urls from "./url.model";
 
-export { user };
-
-export const schema = {
-  user,
-};
+export { user, urls };

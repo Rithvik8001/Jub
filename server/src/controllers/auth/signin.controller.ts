@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { signInValidation } from "../../validations/auth/signInValidation";
+import { signInValidation } from "../../validations";
 import db from "../../config/index";
 import { user } from "../../models/schema";
 import { eq } from "drizzle-orm";
@@ -53,7 +53,7 @@ const signin = async (req: Request, res: Response) => {
 
     return res.status(200).json({
       message: "Signin successful",
-      userData,
+      data: userData,
     });
   } catch (error) {
     if (error instanceof ZodError) {
